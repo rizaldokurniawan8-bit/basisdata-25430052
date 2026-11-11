@@ -45,7 +45,7 @@ Saya menggunakan asisten AI Gemini untuk membantu memahami penyebab error di ter
 
 ## 10. Bukti Git
 * **Tautan Repositori:** https://github.com/rizaldokurniawan8-bit/basisdata-25430052.git
-* **Commit Hash Pertemuan 1:** `p01: milestone proyek 1`
+* **Commit Hash Pertemuan 1:** d26f4b8
 
 ![Bukti Git Push](img/p01_git_push_052.png)
 *Keterangan: Hasil git push pertama berhasil terkirim ke repositori GitHub.*

@@ -72,7 +72,7 @@ Saya menggunakan AI (Google Gemini) sebagai mitra diskusi untuk mengevaluasi per
 
 ## 10. Bukti Git
 * **Tautan Repositori:** https://github.com/rizaldokurniawan8-bit/basisdata-25430052.git
-* **Hash Commit Terakhir:** d0921cb
+* **Hash Commit Terakhir:** 98007b9
 
 ## Checklist
 - [x] Laporan menggunakan format Markdown
