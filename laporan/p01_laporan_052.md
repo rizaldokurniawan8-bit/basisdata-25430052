@@ -8,13 +8,13 @@ Praktikum ini bertujuan agar mahasiswa mampu mengelola layanan MariaDB di XAMPP,
 Basis data membutuhkan Sistem Manajemen Basis Data (DBMS) seperti MariaDB untuk mengelola penyimpanan, keamanan, dan transaksi. MariaDB menggunakan arsitektur klien-server di mana server berjalan di *background* (port 3306) dan klien (seperti CLI atau phpMyAdmin) mengirimkan kueri SQL kepadanya. Untuk keamanan, diterapkan prinsip hak akses minimum di mana akun kerja hanya bisa mengakses basis datanya sendiri. Semua progres dicatat dalam sistem *version control* Git.
 
 ## 3. Hasil Langkah Percobaan
-**Bukti Versi MariaDB, Akun, dan SQL Mode:**
+**Bukti Versi MariaDB, Akun Praktikum, dan SQL Mode:**
 ![Bukti Versi dan User](img/p01_versi_user_052.png)
-*Keterangan: Berhasil login sebagai dev_052 dan mode SQL ketat (STRICT_TRANS_TABLES) telah aktif.*
+*Keterangan: Berhasil login sebagai mhs_052@localhost pada MariaDB 10.4.32 dan menampilkan konfigurasi sql_mode aktif.*
 
-**Bukti Database Proyek:**
+**Bukti Database Praktikum:**
 ![Bukti Database](img/p01_show_db_052.png)
-*Keterangan: Akun dev_052 hanya dapat melihat information_schema, test, dan toko_052 miliknya.*
+*Keterangan: Akun mhs_052 hanya dapat melihat information_schema, kopma_052, dan test miliknya.*
 
 **Bukti Halaman phpMyAdmin (Mode Cookie):**
 ![Bukti phpMyAdmin](img/p01_phpmyadmin_052.png)
@@ -23,7 +23,7 @@ Basis data membutuhkan Sistem Manajemen Basis Data (DBMS) seperti MariaDB untuk 
 ## 4. Jawaban Titik Analisis
 **Titik Analisis 1:** Walaupun tombol di XAMPP berlabel "MySQL", server yang sebenarnya berjalan adalah MariaDB. Konsekuensinya, jika mencari solusi error di internet, kita harus merujuk pada dokumentasi MariaDB, terutama untuk fitur baru, karena ada perbedaan penanganan fitur tertentu dibandingkan MySQL murni.
 **Titik Analisis 2:** Pesan galat 1045 menyebutkan `(using password: NO)`, yang artinya klien mencoba masuk tanpa mengirimkan password sama sekali (karena lupa menambahkan opsi `-p`).
-**Titik Analisis 3:** `information_schema` tetap terlihat karena itu adalah database sistem bawaan yang berisi informasi tabel (metadata) yang boleh dilihat semua user. Galat 1044 muncul saat mencoba masuk ke `mysql` karena akun `dev_052` tidak memiliki hak akses (privileges) ke sana. Beda dengan galat 1045 yang merupakan masalah otentikasi (salah password).
+**Titik Analisis 3:** `information_schema` tetap terlihat karena itu adalah database sistem bawaan yang berisi informasi tabel (metadata) yang boleh dilihat semua user. Galat 1044 muncul saat mencoba masuk ke `mysql` karena akun kerja (mhs_052 maupun dev_052) hanya memiliki hak akses pada database masing-masing dan ditolak saat mengakses database lain
 **Titik Analisis 4:** Mode `cookie` lebih aman karena pengguna diwajibkan mengetik password setiap kali login. Pada mode `config`, password disimpan dalam bentuk teks biasa di dalam file `config.inc.php`, yang sangat rentan jika file tersebut bocor atau diakses orang lain di komputer yang sama.
 
 ## 5. Hasil Latihan dan Modifikasi
@@ -32,7 +32,12 @@ Basis data membutuhkan Sistem Manajemen Basis Data (DBMS) seperti MariaDB untuk 
 *Keterangan: Pembuatan tabel ditolak karena akun tamu_052 hanya diberikan hak akses SELECT, bukan CREATE.*
 
 ## 6. Tugas Mandiri: Milestone Proyek 1
-Telah dibuat repositori GitHub untuk proyek "Toko Pakaian RK Clothing" yang berisi file `README.md`, skrip SQL `p01_lingkungan_052.sql`, dan file `.gitignore`. Database `toko_052` dan akun `dev_052` telah berhasil dibuat dan dibuktikan pada tangkapan layar di bagian 3.
+Telah dibuat repositori GitHub untuk proyek "Toko Pakaian RK Clothing" yang berisi file `README.md`, skrip SQL `p01_lingkungan_052.sql`, dan file `.gitignore`. Database `toko_052` dan akun `dev_052` telah berhasil dibuat serta terisolasi dari database praktikum `kopma_052` (menghasilkan galat 1044 saat diakses).
+
+**Bukti Database Proyek dan Isolasi Akun (Galat 1044):**
+![Bukti Database Proyek dan Galat 1044](img/p01_galat_1044_052.png)
+*Keterangan: Akun dev_052 hanya dapat mengakses toko_052 dan ditolak (ERROR 1044) saat mencoba mengakses kopma_052.*
+Selain itu, dilakukan penyesuaian pemisahan akun mhs_052 (kopma_052) dan dev_052 (toko_052) agar sesuai dengan aturan hak akses minimum pada modul.
 
 ## 7. Pembahasan dan Kendala
 Kendala utama yang dihadapi adalah sempat tertukar antara menjalankan perintah bash (Windows) dengan kueri MariaDB, sehingga muncul perintah yang "menggantung" (tanda `->`). Solusinya adalah dengan mengetik `\c` untuk membatalkan kueri dan `exit` untuk kembali ke Command Prompt Windows. Selain itu, terdapat pesan galat 1045 karena salah memasukkan password, yang diselesaikan dengan masuk kembali menggunakan opsi `-p` dan mengetik password dengan benar.
